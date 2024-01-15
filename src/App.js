@@ -1,8 +1,17 @@
+import { useEffect } from "react";
+import { BrowserRouter } from "react-router-dom";
+import RoutesApp from './routes'
+
 function App() {
+
+  useEffect(() => {
+    document.title = 'Sistema de Chamados'
+  }, [])
+
   return (
-    <div className="">
-      <h1>Teste</h1>
-    </div>
+    <BrowserRouter>
+      <RoutesApp />
+    </BrowserRouter>
   );
 }
 
