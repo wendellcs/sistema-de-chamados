@@ -33,20 +33,20 @@
     padding: 20px;
 }
 
-#signIn-form {
+#form {
     margin-top: 1.5rem;
     width: 90%;
     display: flex;
     flex-direction: column;
 }
 
-#signIn-form h1 {
+#form h1 {
     text-align: center;
     margin-bottom: 1rem;
     color: #181c2e;
 }
 
-#signIn-form input {
+#form input {
     margin-bottom: 1rem;
     height: 35px;
     border-radius: 5px;
@@ -59,16 +59,16 @@
     color: #181c2e;
 }
 
-#signIn-form input:hover {
+#form input:hover {
     background: #f5f3f3;
 }
 
-#signIn-form input:focus {
+#form input:focus {
     outline: none;
     border: 1px solid #2e375f;
 }
 
-#signIn-form button {
+#form button {
     height: 40px;
     border: 0;
     border-radius: 5px;
@@ -80,7 +80,7 @@
     transition: .3s;
 }
 
-#signIn-form button:hover {
+#form button:hover {
     background: #232e5a;
 }
 

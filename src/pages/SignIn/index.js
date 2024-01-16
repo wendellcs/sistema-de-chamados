@@ -16,7 +16,8 @@ function SignIn() {
                     <img src={logo} alt='Logo do sistema de chamados' />
                 </div>
 
-                <form id='signIn-form'>
+                <form id='form'>
+                    <h1>Entrar</h1>
                     <input type='text'
                         placeholder='email@email.com'
                         value={email}
