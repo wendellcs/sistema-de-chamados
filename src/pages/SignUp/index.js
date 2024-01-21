@@ -8,6 +8,14 @@ function SignUp() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    async function handleSubmit(e) {
+        e.preventDefault()
+
+        if (name && email && password) {
+            alert('cadastro')
+        }
+    }
+
     return (
         <div className='container-center'>
             <div className='login'>
@@ -15,7 +23,7 @@ function SignUp() {
                     <img src={logo} alt='Logo do sistema de chamados' />
                 </div>
 
-                <form id='form'>
+                <form id='form' onSubmit={handleSubmit}>
                     <h1>Nova conta</h1>
                     <input type='text'
                         placeholder='Name'
