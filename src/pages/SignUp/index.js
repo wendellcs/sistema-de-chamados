@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/auth";
 import logo from './../../assets/logo.png'
 
 
@@ -8,12 +9,21 @@ function SignUp() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    const { signUp, loadingAuth } = useContext(AuthContext)
+
     async function handleSubmit(e) {
         e.preventDefault()
 
         if (name && email && password) {
-            alert('cadastro')
+            await signUp(name, email, password)
+            resetInput()
         }
+    }
+
+    function resetInput() {
+        setEmail('')
+        setName('')
+        setPassword('')
     }
 
     return (
@@ -41,7 +51,7 @@ function SignUp() {
                         onChange={(e) => { setPassword(e.target.value); }}
                     />
 
-                    <button type='submit'>Cadastrar</button>
+                    <button type='submit'>{loadingAuth ? 'Carregando...' : "Cadastrar"}</button>
                 </form>
 
                 <Link to='/'>Já possui uma conta? Faça login</Link>
