@@ -1,6 +1,6 @@
 import { useState, createContext, useEffect } from "react";
 import { auth, db } from '../services/firebaseConnection'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,23 @@ function AuthProvider({ children }) {
     const [user, setUser] = useState(null)
     const [loadingAuth, setLoadingAuth] = useState(false)
 
+    const [loading, setLoading] = useState(true)
+
     const navigate = useNavigate()
+
+    useEffect(() => {
+        function loadUser() {
+            const storageUser = localStorage.getItem('@ticketsPRO')
+
+            if (storageUser) {
+                setUser(JSON.parse(storageUser))
+                setLoading(false)
+            }
+            setLoading(false)
+        }
+
+        loadUser()
+    }, [])
 
     async function signIn(email, password) {
         setLoadingAuth(true)
@@ -82,18 +98,24 @@ function AuthProvider({ children }) {
         localStorage.setItem('@ticketsPRO', JSON.stringify(data))
     }
 
-    if (loadingAuth) {
+    async function logOut() {
+        await signOut(auth)
+        localStorage.removeItem('@ticketsPRO')
+        setUser(null)
 
+        toast.warn('Saindo da conta...')
     }
 
     return (
         <AuthContext.Provider
             value={{
-                signed: !!user, // False
+                signed: !!user,
                 user,
                 signIn,
                 signUp,
-                loadingAuth
+                logOut,
+                loadingAuth,
+                loading
             }}>
             {children}
         </AuthContext.Provider>
