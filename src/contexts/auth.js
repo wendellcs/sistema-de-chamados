@@ -2,6 +2,10 @@ import { useState, createContext, useEffect } from "react";
 import { auth, db } from '../services/firebaseConnection'
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc, setDoc } from 'firebase/firestore'
+import { useNavigate } from "react-router-dom";
+
+import { toast } from "react-toastify";
+
 
 export const AuthContext = createContext({})
 
@@ -13,6 +17,8 @@ function AuthProvider({ children }) {
         console.log(email)
         console.log(password)
     }
+
+    const navigate = useNavigate()
 
     async function signUp(name, email, password) {
         setLoadingAuth(true)
@@ -34,14 +40,22 @@ function AuthProvider({ children }) {
                             }
 
                             setUser(data)
-                            setLoadingAuth(false)
-                        })
+                            storageUser(data)
 
+                            setLoadingAuth(false)
+                            toast.success('Seja bem-vindo!')
+                            navigate('/dashboard')
+
+                        })
                 })
                 .catch(err => {
                     setLoadingAuth(false)
                 })
         }
+    }
+
+    function storageUser(data) {
+        localStorage.setItem('@ticketsPRO', JSON.stringify(data))
     }
 
     if (loadingAuth) {
