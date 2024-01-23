@@ -2,6 +2,8 @@ import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/auth';
 
+import { toast } from 'react-toastify';
+
 import './signIn.css'
 import logo from '../../assets/logo.png'
 
@@ -9,16 +11,15 @@ function SignIn() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const { signIn } = useContext(AuthContext)
+    const { signIn, loadingAuth } = useContext(AuthContext)
 
-    function handleSignIn(e) {
+    async function handleSignIn(e) {
         e.preventDefault()
 
         if (email && password) {
-            // Mostrar um popup com mensagem de sucesso.
-            signIn(email, password)
+            await signIn(email, password)
         } else {
-            // Mostrar um popup falando que falta algo.
+            return toast.error('Há algum campo vazio...')
         }
     }
 
@@ -42,7 +43,7 @@ function SignIn() {
                         onChange={(e) => { setPassword(e.target.value); }}
                     />
 
-                    <button type='submit'>Acessar</button>
+                    <button type='submit'>{loadingAuth ? "Carregando..." : "Acessar"}</button>
                 </form>
 
                 <Link to='/register'>Criar uma conta</Link>
