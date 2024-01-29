@@ -53,7 +53,7 @@ function AuthProvider({ children }) {
                 toast.success('Bem-vindo(a) de volta!')
                 navigate('/dashboard')
             })
-            .catch(err => {
+            .catch(() => {
                 toast.error('Ops! Algo deu errado...')
                 setLoadingAuth(false)
             })
