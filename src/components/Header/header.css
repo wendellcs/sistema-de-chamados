@@ -67,6 +67,10 @@
     .sidebar div {
         display: none;
     }
+
+    .content {
+        margin-left: 0;
+    }
 }
 
 @media (max-width: 400px) {
@@ -75,4 +79,6 @@
         justify-content: center;
         float: none;
     }
+
+
 }
