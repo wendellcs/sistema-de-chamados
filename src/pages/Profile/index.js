@@ -1,6 +1,10 @@
 import { useContext, useState } from "react"
 import { AuthContext } from "../../contexts/auth"
 import { FiSettings, FiUpload } from "react-icons/fi"
+import { doc, updateDoc } from "firebase/firestore"
+import { db, storage } from "../../services/firebaseConnection"
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+
 
 import Header from "../../components/Header"
 import Title from "../../components/Title"
@@ -29,6 +33,64 @@ export default function Profile() {
         }
     }
 
+    async function handleUpload() {
+        const currentUid = user.uid
+        const uploadRef = ref(storage, `images/${currentUid}/${profileImage.name}`)
+
+        const uploadTask = uploadBytes(uploadRef, profileImage)
+            .then((snapshot) => {
+
+                getDownloadURL(snapshot.ref)
+                    .then(async (downloadURL) => {
+                        let urlPhoto = downloadURL
+
+                        const docRef = doc(db, 'users', user.uid)
+
+                        await updateDoc(docRef, {
+                            profilePic: urlPhoto,
+                            name: name
+                        })
+                            .then(() => {
+                                let data = {
+                                    ...user,
+                                    name: name,
+                                    profilePic: urlPhoto
+                                }
+
+                                setUser(data)
+                                storageUser(data)
+                                toast.success('Foto enviada!')
+                            })
+                    })
+
+            })
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+
+        if (!profileImage && name !== '') {
+            const docRef = doc(db, 'users', user.uid)
+
+            await updateDoc(docRef, {
+                name: name,
+            })
+                .then(() => {
+                    let data = {
+                        ...user,
+                        name: name
+                    }
+
+                    setUser(data)
+                    storageUser(data)
+
+                    toast.success('Nome atualizado!')
+                })
+        } else if (name !== '' && profileImage) {
+            handleUpload()
+        }
+    }
+
     return (
         <div>
             <Header />
@@ -36,7 +98,7 @@ export default function Profile() {
                 <Title text={'Minha conta'}><FiSettings size={25} /></Title>
 
                 <div className="container">
-                    <form className="form-profile">
+                    <form className="form-profile" onSubmit={handleSubmit}>
                         <label className="label-avatar">
                             <span>
                                 <FiUpload color="#fff" size={40} />
