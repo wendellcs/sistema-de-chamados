@@ -110,13 +110,16 @@ export default function Profile() {
                                 (<img src={profilePicUrl} alt="Foto do perfil" width={250} height={250} />)}
                         </label>
 
-                        <label>Nome:</label>
-                        <input type="text" placeholder="Seu nome" value={name} onChange={(e) => { setName(e.target.value) }} />
+                        <div>
 
-                        <label>Email:</label>
-                        <input type="email" placeholder="Exemplo@examplo.com" disabled={true} value={email} />
+                            <label>Nome:</label>
+                            <input type="text" placeholder="Seu nome" value={name} onChange={(e) => { setName(e.target.value) }} />
 
-                        <button type="submit">Salvar</button>
+                            <label>Email:</label>
+                            <input type="email" placeholder="Exemplo@examplo.com" disabled={true} value={email} />
+
+                            <button type="submit">Salvar</button>
+                        </div>
                     </form>
 
                 </div>
