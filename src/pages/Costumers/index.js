@@ -2,14 +2,36 @@ import Header from '../../components/Header'
 import Title from '../../components/Title'
 import { useState } from 'react'
 import { FiUser } from 'react-icons/fi'
+import { db } from '../../services/firebaseConnection'
+import { addDoc, collection } from 'firebase/firestore'
+import { toast } from 'react-toastify'
 
 export default function Costumers() {
     const [nome, setNome] = useState('')
     const [cnpj, setCnpj] = useState('')
     const [endereco, setEndereco] = useState('')
 
-    function handleRegister(e) {
+    async function handleRegister(e) {
         e.preventDefault()
+
+        if (nome && cnpj && endereco) {
+            await addDoc(collection(db, 'costumers'), {
+                nomeFantasia: nome,
+                cnpj: cnpj,
+                endereco: endereco
+            })
+                .then(() => {
+                    setCnpj('')
+                    setNome('')
+                    setEndereco('')
+                    toast.success('Empresa registrada com sucesso!')
+                })
+                .catch(() => {
+                    toast.error('Erro ao fazer cadastro.')
+                })
+        } else {
+            toast.error('Há algum campo vazio...')
+        }
 
     }
 
