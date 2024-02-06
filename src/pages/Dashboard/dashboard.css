@@ -1,0 +1,30 @@
+.new {
+    float: right;
+    margin-bottom: 1.5em;
+    background: #83bf02;
+    padding: 0.5em;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    font-weight: 600;
+    color: #fff;
+    transition: all .3s ease-in-out;
+}
+
+.new svg {
+    margin-right: 5px;
+}
+
+.new:hover {
+    background: #5fb204;
+    transform: scale(1.1);
+}
+
+.dashboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
