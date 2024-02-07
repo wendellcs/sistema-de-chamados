@@ -41,7 +41,11 @@ export default function Dashboard() {
                             <tr>
                                 <td data-label='cliente'>Mercado Esquina</td>
                                 <td data-label='Assunto'>Suporte</td>
-                                <td data-label='Status'>Em aberto</td>
+                                <td data-label='Status' style={{ backgroundColor: '#999' }}>
+                                    <span className="badge">
+                                        Em aberto
+                                    </span>
+                                </td>
                                 <td data-label='Cadastrado'>12/05/2022</td>
                                 <td data-label='#'>
                                     <button className="action" style={{ backgroundColor: '#3583f6' }}><FiSearch color="#fff" size={17} /></button>
