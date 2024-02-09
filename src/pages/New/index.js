@@ -29,16 +29,16 @@ export default function New() {
 
                 <div className='container'>
                     <form className='form-profile'>
-                        <label>Clientes</label>
-                        <select>
+                        <label for='clientes'>Clientes</label>
+                        <select id='clientes'>
                             <option key={1} value={1}>Mercado Teste</option>
                             <option key={2} value={2}>Loja Teste</option>
                             <option key={3} value={3}>Shopping Teste</option>
                             <option key={4} value={4}>Igreja Teste</option>
                         </select>
 
-                        <label>Assunto</label>
-                        <select>
+                        <label for='assunto'>Assunto</label>
+                        <select id='assunto'>
                             <option value='suporte'>Suporte</option>
                             <option value='visita_tecnica'>Visita Tecnica</option>
                             <option value='financeiro'>Financeiro</option>
@@ -46,14 +46,18 @@ export default function New() {
 
                         <label>Status</label>
                         <div className='status'>
-                            <input type='radio' name='radio' value='aberto' onChange={handleOptionChange} checked={status === 'aberto'} />
-                            <span>Em aberto</span>
-
-                            <input type='radio' name='radio' value='progresso' onChange={handleOptionChange} checked={status === 'progresso'} />
-                            <span>Em progresso</span>
-
-                            <input type='radio' name='radio' value='atendido' onChange={handleOptionChange} checked={status === 'atendido'} />
-                            <span>Atendido</span>
+                            <div>
+                                <input type='radio' name='radio' value='aberto' onChange={handleOptionChange} checked={status === 'aberto'} />
+                                <span>Em aberto</span>
+                            </div>
+                            <div>
+                                <input type='radio' name='radio' value='progresso' onChange={handleOptionChange} checked={status === 'progresso'} />
+                                <span>Em progresso</span>
+                            </div>
+                            <div>
+                                <input type='radio' name='radio' value='atendido' onChange={handleOptionChange} checked={status === 'atendido'} />
+                                <span>Atendido</span>
+                            </div>
                         </div>
 
                         <label>Complemento</label>

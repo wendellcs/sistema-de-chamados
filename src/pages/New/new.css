@@ -5,6 +5,7 @@ form textarea {
 
 form input[type='radio'] {
     margin: 15px 0;
+    cursor: pointer;
 }
 
 form input[type='radio']:not(:first-child) {
@@ -18,10 +19,28 @@ form label {
 
 .status {
     display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.status div {
+    display: flex;
     align-items: center;
 }
 
 .status span {
     padding-left: .5em;
     font-size: 1.3em;
+}
+
+@media (max-width: 348px) {
+    .status {
+        flex-direction: column;
+        gap: 0;
+        margin: 15px 0;
+    }
+
+    .status div {
+        height: 35px;
+    }
 }
