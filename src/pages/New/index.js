@@ -1,22 +1,68 @@
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { AuthContext } from '../../contexts/auth'
+import { FiPlusCircle } from 'react-icons/fi'
+import { db } from '../../services/firebaseConnection'
+import { collection, getDocs, getDoc, doc } from 'firebase/firestore'
+
 import Header from '../../components/Header'
 import Title from '../../components/Title'
-import { FiPlusCircle } from 'react-icons/fi'
 import './new.css'
+import { toast } from 'react-toastify'
+
 
 export default function New() {
+    const { user } = useContext(AuthContext)
 
     const [costumers, setCostumers] = useState([])
+    const [loadCostumers, setLoadCostumers] = useState(true)
+    const [costumerSelected, setCostumerSelected] = useState(0)
 
     const [complemento, setComplemento] = useState('')
     const [assunto, setAssunto] = useState('suporte')
     const [status, setStatus] = useState('aberto')
 
+    function handleChangeSelect(e) {
+        setAssunto(e.target.value)
+    }
+
     function handleOptionChange(e) {
         setStatus(e.target.value)
-
-
     }
+
+    function handleChangeCostumer(e) {
+        setCostumerSelected(e.target.value)
+    }
+
+    useEffect(() => {
+        async function loadCostumers() {
+            const querySnapshot = await getDocs(collection(db, 'costumers'))
+                .then((snapshot) => {
+                    let lista = []
+                    snapshot.forEach(doc => {
+                        lista.push({
+                            Id: doc.id,
+                            nomeFantasia: doc.data().nomeFantasia
+                        })
+                    })
+
+                    if (snapshot.docs.size == 0) {
+                        setCostumers([{ id: 1, nomeFantasia: 'FREELA' }])
+                        toast.error('Nenhuma empresa econtrada...')
+                        setLoadCostumers(false)
+                        return
+                    }
+
+                    setCostumers(lista)
+                    setLoadCostumers(false)
+                })
+                .catch(() => {
+                    toast.error('Erro ao buscar clientes')
+                    setCostumers([{ id: 1, nomeFantasia: 'FREELA' }])
+                    setLoadCostumers(false)
+                })
+        }
+        loadCostumers()
+    }, [])
 
     return (
         <div>
@@ -30,15 +76,25 @@ export default function New() {
                 <div className='container'>
                     <form className='form-profile'>
                         <label for='clientes'>Clientes</label>
-                        <select id='clientes'>
-                            <option key={1} value={1}>Mercado Teste</option>
-                            <option key={2} value={2}>Loja Teste</option>
-                            <option key={3} value={3}>Shopping Teste</option>
-                            <option key={4} value={4}>Igreja Teste</option>
-                        </select>
+                        {
+                            loadCostumers ? (
+                                <input type='text' disabled={true} value={'Carregando...'} />
+                            ) : (
+                                <select value={costumerSelected} onChange={handleChangeCostumer}>
+                                    {
+                                        costumers.map(item => {
+                                            return (
+                                                <option key={item.index} value={item.index}>{item.nomeFantasia}</option>
+                                            )
+                                        })
+                                    }
+                                </select>
+
+                            )
+                        }
 
                         <label for='assunto'>Assunto</label>
-                        <select id='assunto'>
+                        <select id='assunto' value={assunto} onChange={handleChangeSelect}>
                             <option value='suporte'>Suporte</option>
                             <option value='visita_tecnica'>Visita Tecnica</option>
                             <option value='financeiro'>Financeiro</option>
