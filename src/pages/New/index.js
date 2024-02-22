@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import { AuthContext } from '../../contexts/auth'
 import { FiPlusCircle } from 'react-icons/fi'
 import { db } from '../../services/firebaseConnection'
-import { collection, getDocs, getDoc, doc } from 'firebase/firestore'
+import { collection, getDocs, getDoc, doc, addDoc } from 'firebase/firestore'
 
 import Header from '../../components/Header'
 import Title from '../../components/Title'
@@ -40,7 +40,7 @@ export default function New() {
                     let lista = []
                     snapshot.forEach(doc => {
                         lista.push({
-                            Id: doc.id,
+                            id: doc.id,
                             nomeFantasia: doc.data().nomeFantasia
                         })
                     })
@@ -64,6 +64,28 @@ export default function New() {
         loadCostumers()
     }, [])
 
+    async function handleRegister(e) {
+        e.preventDefault()
+
+        await addDoc(collection(db, 'chamados'), {
+            created: new Date(),
+            cliente: costumers[costumerSelected].nomeFantasia,
+            clienteId: costumers[costumerSelected].id,
+            assunto: assunto,
+            complemento: complemento,
+            status: status,
+            userId: user.uid
+        })
+            .then(() => {
+                toast.success('Chamado registrado')
+                setComplemento('')
+                setCostumerSelected(0)
+            })
+            .catch(() => {
+                toast.error('Parece que algo deu errado...')
+            })
+    }
+
     return (
         <div>
             <Header />
@@ -74,7 +96,7 @@ export default function New() {
                 </Title>
 
                 <div className='container'>
-                    <form className='form-profile'>
+                    <form className='form-profile' onSubmit={handleRegister}>
                         <label for='clientes'>Clientes</label>
                         {
                             loadCostumers ? (
