@@ -28,7 +28,7 @@
     position: absolute;
     top: 15px;
     left: 15px;
-    padding: 5px;
+    padding: 2px;
     color: #FFF;
 }
 
@@ -57,4 +57,16 @@
     margin-top: 0.5em;
     white-space: pre-wrap;
     line-height: 150%;
+}
+
+.i-Atendido {
+    background: #73ff01;
+}
+
+.i-Aberto {
+    background: #ffbd06;
+}
+
+.i-Progresso {
+    background: #22cfee;
 }
